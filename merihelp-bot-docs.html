@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Merihelp Bot — Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0e14;
+      --surface: #111820;
+      --border: #1e2d3d;
+      --accent: #00d4aa;
+      --accent2: #007bff;
+      --text: #c8d4e0;
+      --muted: #4a6078;
+      --heading: #e8f0f8;
+      --tag-bg: #0d2035;
+      --tag-border: #1a4060;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      padding: 3.5rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      color: var(--heading);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .tagline {
+      margin-top: 0.75rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      font-weight: 400;
+      max-width: 520px;
+    }
+
+    /* Nav pills */
+    .nav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: all 0.15s;
+      letter-spacing: 0.05em;
+    }
+
+    .nav a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--tag-bg);
+    }
+
+    /* Sections */
+    section {
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-child { border-bottom: none; }
+
+    h2 {
+      font-family: var(--sans);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--heading);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    h2::before {
+      content: attr(data-num);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      background: var(--tag-bg);
+      border: 1px solid var(--accent);
+      padding: 0.1rem 0.4rem;
+      border-radius: 2px;
+    }
+
+    p { margin-bottom: 1rem; color: var(--text); }
+
+    /* Info card */
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 1.5rem 1.75rem;
+      margin: 1.5rem 0;
+    }
+
+    .info-card h3 {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .info-card p { margin: 0; font-size: 0.95rem; }
+
+    /* Code block */
+    .code-block {
+      background: #060b10;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: #7ec8e3;
+      overflow-x: auto;
+      margin: 1rem 0;
+      line-height: 1.8;
+    }
+
+    .code-block .comment { color: var(--muted); }
+    .code-block .key { color: var(--accent); }
+    .code-block .val { color: #f0a070; }
+
+    /* Grid for identity fields */
+    .field-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .field {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      align-items: start;
+      gap: 1rem;
+    }
+
+    @media (max-width: 560px) {
+      .field { grid-template-columns: 1fr; }
+    }
+
+    .field-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding-top: 2px;
+    }
+
+    .field-value {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      color: var(--heading);
+      word-break: break-all;
+    }
+
+    .field-value .highlight { color: var(--accent); }
+
+    /* Behavior table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.88rem;
+    }
+
+    th {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      padding: 0.6rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* Status pill */
+    .status {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 2px;
+      letter-spacing: 0.08em;
+    }
+
+    .status.yes { background: rgba(0,212,170,0.12); color: var(--accent); border: 1px solid rgba(0,212,170,0.3); }
+    .status.no { background: rgba(74,96,120,0.15); color: var(--muted); border: 1px solid var(--border); }
+
+    /* Contact box */
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-box p { margin: 0; font-size: 0.95rem; }
+    .contact-box .email {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      padding: 0.5rem 1.25rem;
+      border-radius: 2px;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .contact-box .email:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem 0;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      letter-spacing: 0.04em;
+    }
+
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="badge">Verified Bot</div>
+    <h1>Meri<span>help</span> Bot</h1>
+    <p class="tagline">Automated crawler monitoring public ERCOT grid data on behalf of Merihelp.</p>
+  </header>
+
+  <nav class="nav">
+    <a href="#identity">Identity</a>
+    <a href="#purpose">Purpose</a>
+    <a href="#behavior">Behavior</a>
+    <a href="#crawl-policy">Crawl Policy</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Identity -->
+  <section id="identity">
+    <h2 data-num="01">Bot Identity</h2>
+    <p>The following strings uniquely identify all traffic generated by Merihelp Bot. These values are registered with Cloudflare's Verified Bot program.</p>
+
+    <div class="field-grid">
+      <div class="field">
+        <span class="field-label">User-Agent</span>
+        <span class="field-value"><span class="highlight">Merihelp</span>/1.0 (+https://merihelp.bot/bot)</span>
+      </div>
+      <div class="field">
+        <span class="field-label">UA Substring</span>
+        <span class="field-value"><span class="highlight">Merihelp</span></span>
+      </div>
+      <div class="field">
+        <span class="field-label">rDNS Suffix</span>
+        <span class="field-value"><span class="highlight">.crawler.merihelp.bot</span></span>
+      </div>
+      <div class="field">
+        <span class="field-label">Operator Domain</span>
+        <span class="field-value">merihelp.bot</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Verification</span>
+        <span class="field-value">Cloudflare Verified Bots Program</span>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>FCrDNS Verification</h3>
+      <p>All egress IPs used by Merihelp Bot have PTR records resolving to <code>*.crawler.merihelp.bot</code>. Forward-confirmed reverse DNS (FCrDNS) lookups will resolve back to the same IP, confirming authenticity.</p>
+    </div>
+  </section>
+
+  <!-- Purpose -->
+  <section id="purpose">
+    <h2 data-num="02">Purpose</h2>
+    <p>Merihelp Bot is an automated monitoring crawler operated by Merihelp. It accesses publicly available data published by ERCOT (Electric Reliability Council of Texas) to track grid conditions, energy pricing, and market data.</p>
+
+    <div class="info-card">
+      <h3>Target Data Sources</h3>
+      <p>ERCOT public market data feeds, real-time grid status, LMP pricing, generation capacity reports, and load forecasts available at <strong>ercot.com</strong> and its public data APIs.</p>
+    </div>
+
+    <p>Data collected is used exclusively for internal monitoring, alerting, and analytics. Merihelp Bot does not scrape personal data, login-protected content, or any resource that has not been made publicly available by ERCOT.</p>
+  </section>
+
+  <!-- Behavior -->
+  <section id="behavior">
+    <h2 data-num="03">Behavior &amp; Capabilities</h2>
+    <p>The table below describes what Merihelp Bot does and does not do.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Behavior</th>
+          <th>Status</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Respects <code>robots.txt</code></td>
+          <td><span class="status yes">YES</span></td>
+          <td>Fully honors all Disallow and Crawl-delay directives</td>
+        </tr>
+        <tr>
+          <td>Follows crawl-delay</td>
+          <td><span class="status yes">YES</span></td>
+          <td>Minimum 5s between requests per host; configurable</td>
+        </tr>
+        <tr>
+          <td>Executes JavaScript</td>
+          <td><span class="status no">NO</span></td>
+          <td>HTTP-only crawler; does not render pages</td>
+        </tr>
+        <tr>
+          <td>Submits forms</td>
+          <td><span class="status no">NO</span></td>
+          <td>Read-only; never writes or submits data</td>
+        </tr>
+        <tr>
+          <td>Follows redirects</td>
+          <td><span class="status yes">YES</span></td>
+          <td>Up to 5 hops</td>
+        </tr>
+        <tr>
+          <td>Stores personal data</td>
+          <td><span class="status no">NO</span></td>
+          <td>Only collects market/grid data from public endpoints</td>
+        </tr>
+        <tr>
+          <td>Caches responses</td>
+          <td><span class="status yes">YES</span></td>
+          <td>Respects Cache-Control headers; avoids redundant requests</td>
+        </tr>
+        <tr>
+          <td>IP ranges disclosed</td>
+          <td><span class="status yes">YES</span></td>
+          <td>Available on request; all IPs have valid PTR records</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Crawl Policy -->
+  <section id="crawl-policy">
+    <h2 data-num="04">Crawl Policy</h2>
+    <p>Merihelp Bot is designed to be a polite, low-impact crawler. The following request headers are sent on every request:</p>
+
+    <div class="code-block">
+<span class="key">User-Agent:</span>     <span class="val">Merihelp/1.0 (+https://merihelp.bot/bot)</span>
+<span class="key">From:</span>           <span class="val">bot@merihelp.bot</span>
+<span class="key">Accept:</span>         <span class="val">application/json, text/html, text/xml, */*</span>
+<span class="key">Accept-Encoding:</span> <span class="val">gzip, deflate, br</span>
+<span class="comment"># Crawl-delay is honored per robots.txt; default min is 5s</span>
+    </div>
+
+    <div class="info-card">
+      <h3>Opt-Out / Rate Limiting</h3>
+      <p>To block Merihelp Bot, add <code>User-agent: Merihelp</code> with <code>Disallow: /</code> to your <code>robots.txt</code>. To request custom rate limits or a complete block, contact us at the address below.</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2 data-num="05">Contact</h2>
+    <p>If you have questions about Merihelp Bot, have detected unexpected behavior, or would like to request that we stop crawling your domain, please reach out:</p>
+
+    <div class="contact-box">
+      <div>
+        <p><strong style="color:var(--heading)">Merihelp Bot Team</strong></p>
+        <p style="font-size:0.88rem; color:var(--muted); margin-top:0.25rem">We respond to all bot-related inquiries within 2 business days.</p>
+      </div>
+      <a href="mailto:bot@merihelp.bot" class="email">bot@merihelp.bot</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2025 Merihelp · merihelp.bot</span>
+    <span>Last updated: <span id="updated"></span></span>
+    <a href="https://merihelp.bot">merihelp.bot</a>
+  </footer>
+
+</div>
+<script>
+  const d = new Date();
+  document.getElementById('updated').textContent =
+    d.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+</script>
+</body>
+</html>
